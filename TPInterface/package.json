@@ -1,0 +1,22 @@
+{
+  "name": "tpinterface",
+  "version": "1.0.0",
+  "description": "Temporary interface for Educeco",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LabSIStExupery/EducECOCar-Code.git"
+  },
+  "author": "ShaBang",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/LabSIStExupery/EducECOCar-Code/issues"
+  },
+  "homepage": "https://github.com/LabSIStExupery/EducECOCar-Code#readme",
+  "dependencies": {
+    "electron": "^4.1.3"
+  }
+}
