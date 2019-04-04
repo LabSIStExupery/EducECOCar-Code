@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 27 Mars 2019 à 19:17
+-- Généré le :  Jeu 04 Avril 2019 à 22:04
 -- Version du serveur :  5.7.9
 -- Version de PHP :  5.6.16
 
@@ -89,6 +89,28 @@ CREATE TABLE IF NOT EXISTS `runs` (
   `Comment` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tests`
+--
+
+DROP TABLE IF EXISTS `tests`;
+CREATE TABLE IF NOT EXISTS `tests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(20) NOT NULL,
+  `value` tinyint(3) UNSIGNED NOT NULL,
+  `unit` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `tests`
+--
+
+INSERT INTO `tests` (`id`, `type`, `value`, `unit`) VALUES
+(1, 'Vitesse', 153, 'km/h');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
