@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EducEco Test Windows</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Teko" rel="stylesheet">
+
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script> <!-- Necessary for electron include -->
+
+    <script src="./web_scripts/jquery-3.3.1.min.js"></script>
+    <script src="./web_scripts/main.js"></script>
+
+    <script>if (window.module) module = window.module;</script> <!-- Necessary for electron include -->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <table>
+                <tr>
+                    <td>
+                        <p id="title">Titre :</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><span id="value">137.8</span><span id="unit">km/h</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>  
+    </div>
+</body>
+</html>
