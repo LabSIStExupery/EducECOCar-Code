@@ -14,7 +14,7 @@ $(function(){
           .fail(function(err) {
             console.log('Error: ' + err.status);
           });
-    }, 1000);
+    }, 500);
 
 /*function abortTimer() { // to be called when you want to stop the timer
   clearInterval(tid);
