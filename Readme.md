@@ -3,8 +3,8 @@
 ## Dépendances
 Pour fonctionner, le code a besoin des programmes / libraries suivants :
 - apache 2
-- PHP >=5.4
+- PHP >= 7.1
 - MySQL / MariaDB
-- Python >=3.7
-- Adafruit MCP3008 library
-- Compléter si besoin ...
+- Python >= 3.7
+- Adafruit CircuitPython MCP3008 library
+- python mysql cursors 
