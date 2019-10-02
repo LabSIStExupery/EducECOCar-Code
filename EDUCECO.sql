@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  mer. 25 sep. 2019 à 15:28
+-- Généré le :  mer. 02 oct. 2019 à 14:32
 -- Version du serveur :  10.3.17-MariaDB-0+deb10u1
 -- Version de PHP :  7.0.33-0+deb9u3
 
@@ -62,6 +62,18 @@ CREATE TABLE `Temperature` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Tests`
+--
+
+CREATE TABLE `Tests` (
+  `id` int(11) NOT NULL,
+  `Value` int(11) NOT NULL,
+  `TIMESTAMP` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `Voltage`
 --
 
@@ -96,6 +108,12 @@ ALTER TABLE `Temperature`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `Tests`
+--
+ALTER TABLE `Tests`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `Voltage`
 --
 ALTER TABLE `Voltage`
@@ -121,6 +139,12 @@ ALTER TABLE `Speed`
 -- AUTO_INCREMENT pour la table `Temperature`
 --
 ALTER TABLE `Temperature`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Tests`
+--
+ALTER TABLE `Tests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
