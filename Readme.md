@@ -7,4 +7,8 @@ Pour fonctionner, le code a besoin des programmes / libraries suivants :
 - MySQL / MariaDB
 - Python >= 3.7
 - Adafruit CircuitPython MCP3008 library
-- python mysql cursors 
+- python mysql cursors :
+  apt-get install python-pip libmariadb-dev python-dev python-mysqldb
+  pip install mysql
+  pip install MySQL-python
+  pip install mysql-connector-python
