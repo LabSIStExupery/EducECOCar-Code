@@ -70,6 +70,70 @@
                     150
                 ]
             ]
+        },
+        "tempBattery": {
+            "allowed": [
+                10,
+                35
+            ],
+            "warning": [
+                [
+                    -10,
+                    10
+                ],
+                [
+                    35,
+                    67
+                ]
+            ],
+            "critical": [
+                [
+                    -50,
+                    -10
+                ],
+                [
+                    67,
+                    150
+                ]
+            ]
+        },
+        "speed": {
+            "allowed": [
+                0,
+                40
+            ],
+            "warning": [
+                [
+                    40,
+                    50
+                ]
+            ],
+            "critical": [
+                [
+                    50,
+                    150
+                ]
+            ]
+        },
+        "current": {
+            "allowed": [
+                0,
+                110
+            ],
+            "warning": [
+                [
+                    135,
+                    200
+                ]
+            ],
+            "critical": [
+                [
+                    200,
+                    500
+                ]
+            ]
         }
-    }
+    },
+    "AverageOverTime" : 300,
+    "BatteryCapacity" : 8000
 }

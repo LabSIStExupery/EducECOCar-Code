@@ -66,55 +66,7 @@ class rangeChecker():
         for name, r in self.ranges.items():
             print(name, r)
         
-def mainLoopProcessing(db, parameters):
-    cursor = db.cursor()
-    errors = []
 
-    #Battery level processing
-    cursor.execute("SELECT Cell1,Cell2,Cell3,TIMESTAMP FROM Battery ORDER BY TIMESTAMP DESC LIMIT 1") #Selectionne la dernière entrée de batterie dans la BDD
-    data = cursor.fetchone()
-    TS_B = data[3]
-    cells = [data[0],data[1],data[2]]
-
-    if timestamp() > TS_B+2000:  #Au dela de 2 secondes on considère les données comme vieilles
-        errors.append(["WARNING", "OldData", "Battery", timestamp()-TS_B])
-
-    total = cells[0] + cells[1] + cells[2] #Tension totale aux bornes de la batterie
-    if total < 10.8:    #Cas 1 : batterie moins de 10%
-        percent = (total - 9) * 5.55
-    elif total >= 10.8 and total < 11.91:   #cas 2 : Batterie moins de 80%
-        percent = (total - 10.8) * 63.06 + 10
-    elif total >= 11.91:    #Cas 3 : Batterie plus de 80%
-        percent = (total - 11.91) * 28.98 + 80
-    
-    if percent <= 20:   #Critique : batterie moins de 20 %
-        errors.append(["CRITICAL", "BatteryLevel", percent])
-
-    cursor.execute("INSERT INTO PBattery (Percentage, TIMESTAMP) VALUES (%s, %s)", (percent, TS_B))   #Stocke l'info dans la BDD
-    db.commit()
-
-    #Instant Power Processing
-    cursor.execute("SELECT Current,TIMESTAMP FROM Current ORDER BY TIMESTAMP DESC LIMIT 1")
-    data = cursor.fetchone()
-    TS_I = data[1]
-    I = data[0] / 1000 #mA -> A
-
-    if timestamp() > TS_I + 2000:   #Au dela de 2 secondes on considère les données comme vieilles
-        errors.append(["WARNING", "OldData", "Current", timestamp()-TS_I])
-
-    cursor.execute("INSERT INTO PInstantPower (Power, TIMESTAMP) VALUES (%s, %s)", (1.0*total*I, TS_I))   #Stocke l'info dans la BDD
-    # SELECT (Battery.Cell1 + Battery.Cell2 + Battery.Cell3)*Current.Current AS Power FROM Battery INNER JOIN Current ON Battery.TIMESTAMP = Current.TIMESTAMP
-    db.commit() 
-    print(total*I)
-
-    #Calcul de l'autonomie
-    cursor.execute("SELECT AVG(Current) FROM Current WHERE TIMESTAMP > %s", (timestamp()-(parameters["AverageOverTime"]*1000))) #Selectionne la moyenne du courant ou tous les TIMESTAMP sont supérieurs au TIMESTAMP actiel moins la durée sur laquelle on se base pour faire la moyenne
-    AVGCurrent = cursor.fetchone()[0]   #Consommation moyenne en mAh
-    BatteryAuto = parameters["BatteryCapacity"] * percent / 100 #Capacité restante de la batterieen mAh
-    Remaining = BatteryAuto / AVGCurrent #Autonomie restante en Heures
-    Remaining = Remaining * 60 #Autonomie restante en minutes
-
-    
 
             
 db = mysql.connector.connect(host="news-craft.fr", user="Educeco", passwd="educeco", database="Educeco")
@@ -125,11 +77,93 @@ if os.path.exists("../config.json"):
     
     parameters = json.loads(data)
 
-mainLoopProcessing(db, parameters)
+cursor = db.cursor()
+errors = []
 
-#checker = rangeChecker()
-#checker.importJSON("config.json")
-#errors = checker.check({"tempMotor" : 149, "tempVariator" : 75})
-#print(errors)
+### === PROCESSING === ###
+#Battery level processing
+cursor.execute("SELECT Cell1,Cell2,Cell3,TIMESTAMP FROM Battery ORDER BY TIMESTAMP DESC LIMIT 1") #Selectionne la dernière entrée de batterie dans la BDD
+data = cursor.fetchone()
+TS_B = data[3]
+cells = [data[0],data[1],data[2]]
+
+if timestamp() > TS_B+2000:  #Au dela de 2 secondes on considère les données comme vieilles
+    errors.append(["WARNING", "OldData", "Battery", timestamp()-TS_B])
+
+total = cells[0] + cells[1] + cells[2] #Tension totale aux bornes de la batterie
+if total < 10.8:    #Cas 1 : batterie moins de 10%
+    percent = (total - 9) * 5.55
+elif total >= 10.8 and total < 11.91:   #cas 2 : Batterie moins de 80%
+    percent = (total - 10.8) * 63.06 + 10
+elif total >= 11.91:    #Cas 3 : Batterie plus de 80%
+    percent = (total - 11.91) * 28.98 + 80
+
+cursor.execute("INSERT INTO PBattery (Percentage, TIMESTAMP) VALUES (%s, %s)", (percent, TS_B))   #Stocke l'info dans la BDD
+
+#Instant Power Processing
+cursor.execute("SELECT Current,TIMESTAMP FROM Current ORDER BY TIMESTAMP DESC LIMIT 1")
+data = cursor.fetchone()
+TS_I = data[1]
+I = data[0] / 1000 #mA -> A
+
+if timestamp() > TS_I + 2000:   #Au dela de 2 secondes on considère les données comme vieilles
+    errors.append(["WARNING", "OldData", "Current", timestamp()-TS_I])
+
+cursor.execute("INSERT INTO PInstantPower (Power, TIMESTAMP) VALUES (%s, %s)", (total*I, TS_I))   #Stocke l'info dans la BDD
+# SELECT (Battery.Cell1 + Battery.Cell2 + Battery.Cell3)*Current.Current AS Power FROM Battery INNER JOIN Current ON Battery.TIMESTAMP = Current.TIMESTAMP
+
+#Calcul de l'autonomie
+print((timestamp()-(parameters["AverageOverTime"]*1000)))
+cursor.execute("SELECT AVG(Current) FROM Current WHERE TIMESTAMP > " + str(timestamp()-(  parameters["AverageOverTime"]*1000))) #Selectionne la moyenne du courant ou tous les TIMESTAMP sont supérieurs au TIMESTAMP actiel moins la durée sur laquelle on se base pour faire la moyenne
+AVGCurrent = cursor.fetchone()[0]   #Consommation moyenne en mAh
+AVGCurrent = 10.39
+BatteryAuto = parameters["BatteryCapacity"] * percent / 100 #Capacité restante de la batterieen mAh
+Remaining = BatteryAuto / AVGCurrent * 60 #Autonomie restante en minutes
+cursor.execute("INSERT INTO PAutonomy (Time, TIMESTAMP) VALUES (%s, %s)", (Remaining, timestamp()))
+
+#Calcul de la distance parcourue
+cursor.execute("SELECT AVG(Speed) FROM Speed") # Vitesse moyenne tout au long de la course
+AVGSpeed = cursor.fetchone()[0]
+
+cursor.execute("SELECT TIMESTAMP FROM Speed ORDER BY TIMESTAMP ASC LIMIT 1") # Premier TIMESTAMP enregistré
+FirstTS = cursor.fetchone()[0]
+
+cursor.execute("SELECT TIMESTAMP FROM Speed ORDER BY TIMESTAMP DESC LIMIT 1") # Dernier TIMESTAMP enregistré
+LastTS = cursor.fetchone()[0]
+
+if timestamp() > LastTS + 2000:   #Au dela de 2 secondes on considère les données comme vieilles
+    errors.append(["WARNING", "OldData", "Speed", timestamp()-LastTS])
+
+Duration = ((LastTS - FirstTS) / 1000) / 3600 # Temps de course depuis le début en heures
+Distance = Duration * AVGSpeed # Distance parcourue en km
+cursor.execute("INSERT INTO PDistance (Distance, TIMESTAMP) VALUES (%s, %s)", (Distance, timestamp()))
+db.commit()
+
+
+### === ERRORS === ###
+#Battery
+if percent <= 20:   #Critique : batterie moins de 20 %
+    errors.append(["CRITICAL", "BatteryLevel", percent])
+
+#Global Ranges checking
+cursor.execute("SELECT Speed FROM Speed ORDER BY TIMESTAMP DESC LIMIT 1") # Derniere vitesse relevée
+Speed = cursor.fetchone()[0]
+cursor.execute("SELECT Current FROM Current ORDER BY TIMESTAMP DESC LIMIT 1") # Derniere Intensité relevée
+Current = cursor.fetchone()[0]
+cursor.execute("SELECT Temp1,Temp2,Temp3,TIMESTAMP FROM Temperature ORDER BY TIMESTAMP DESC LIMIT 1") # Dernieres Températures relevées
+data = cursor.fetchone()
+tempMotor = data[0]
+tempVariator = data[1]
+tempBattery = data[2]
+TS_Temp = data[3]
+
+if timestamp() > LastTS + 2000:   #Au dela de 2 secondes on considère les données comme vieilles
+    errors.append(["WARNING", "OldData", "Temperature", timestamp()-TS_Temp])
+
+checker = rangeChecker()
+checker.importJSON("../config.json")
+RangeErrors = checker.check({"tempMotor" : tempMotor, "tempVariator" : tempVariator, "tempBattery" : tempBattery, "speed" : Speed, "current" : Current})
+errors = errors + RangeErrors
+print(errors)
 
 db.close()
