@@ -1,0 +1,75 @@
+{
+    "delays": {
+        "delayIntensite": 1.0,
+        "delayBatterie": 1.0,
+        "delayVitesse": 1.0,
+        "delayTemperature": 1.0,
+        "delayAccelerateur": 1.0
+    },
+    "database": {
+        "databaseUser": "Educeco",
+        "databaseName": "Educeco",
+        "databasePassword": "educeco",
+        "databaseHost": "news-craft.fr"
+    },
+    "speedSensor": {
+        "diametreRoue": 10.0,
+        "pinBranchementVitesse": 4,
+        "triggerValue": 20,
+        "angleValue": 20
+    },
+    "ranges": {
+        "tempMotor": {
+            "allowed": [
+                0,
+                40
+            ],
+            "warning": [
+                [
+                    -10,
+                    0
+                ],
+                [
+                    40,
+                    50
+                ]
+            ],
+            "critical": [
+                [
+                    -50,
+                    -10
+                ],
+                [
+                    50,
+                    150
+                ]
+            ]
+        },
+        "tempVariator": {
+            "allowed": [
+                10,
+                35
+            ],
+            "warning": [
+                [
+                    -10,
+                    10
+                ],
+                [
+                    35,
+                    67
+                ]
+            ],
+            "critical": [
+                [
+                    -50,
+                    -10
+                ],
+                [
+                    67,
+                    150
+                ]
+            ]
+        }
+    }
+}
