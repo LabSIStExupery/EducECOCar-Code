@@ -29,7 +29,7 @@
 #  0 = Désactivé
 #  1 = Normal
 #  2 = Avancé (Capteur de vitesse)
-isDebugOn = 2
+isDebugOn = 1
 # Désactiver le logging externe ? Les logs seront affichés dans l'interpréteur python.
 externalLogs = False
 
