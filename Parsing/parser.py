@@ -244,16 +244,17 @@ while True:
     sleep(0.1)
     for n,null in enumerate(i): #A chaque réitération, attendre 0.1 s et diminuer tous les éléments de la liste de 1
         i[n] += -1
+    TS = msTimestamp() #Meme Timestamp pour toutes les valeurs ajoutées à la base de donnée
     #Si le "compte à rebours" atteint 0, mettre à jour la table correspondante et remettre le compteur à sa valeur initiale.
     if i[0] == 0:
         log("debug", "Acquisition de l'Intensité")
-        cursor.execute(addIntensite, (round(ch0.value*1000), msTimestamp())) #Arrondir l'intensité obtenue en mA
+        cursor.execute(addIntensite, (round(ch0.value*1000), TS)) #Arrondir l'intensité obtenue en mA
         db.commit()
         log("debug", "Terminé (Valeur:" +str(round(ch0.value*1000)) + ")")
         i[0] = dInt/0.1
     if i[1] == 0:
         log("debug", "Acquisition des tensions de la batterie")
-        cursor.execute(addBatterie, (ch1.voltage, ch2.voltage, ch3.voltage, msTimestamp()))
+        cursor.execute(addBatterie, (ch1.voltage, ch2.voltage, ch3.voltage, TS))
         db.commit()
         log("debug", "Terminé (Valeurs:" + str(ch1.voltage) + " " + str(ch2.voltage) + " " + str(ch3.voltage)  + ")")
         i[1] = dBatt/0.1
@@ -261,7 +262,7 @@ while True:
         log("debug", "Acquisition de la vitesse")
         with lock:
             speed = actualSpeed
-        cursor.execute(addVitesse, (speed, msTimestamp())) #Récupérer la vitesse dans le thread parallèle définit plus haut
+        cursor.execute(addVitesse, (speed, TS)) #Récupérer la vitesse dans le thread parallèle définit plus haut
         log("debug", "Terminé (Valeur: " + str(speed) + "km/h)")
         i[2] = dSpeed/0.1
     if i[3] == 0:
@@ -269,13 +270,13 @@ while True:
         temp4 = (ch4.voltage - 0.5)*100 #Convertir la tension en température pour les 3 capteurs
         temp5 = (ch5.voltage - 0.5)*100
         temp6 = (ch6.voltage - 0.5)*100
-        cursor.execute(addTemperature, (temp4, temp5, temp6, msTimestamp()))
+        cursor.execute(addTemperature, (temp4, temp5, temp6, TS))
         db.commit()
         log("debug", "Terminé (Valeurs:" + str(temp4) + " " + str(temp5) + " " + str(temp6)  + ")")
         i[3] = dTemp/0.1
     if i[4] == 0:
         log("debug", "Acquisition de la position de l'accélérateur")
-        cursor.execute(addAccelerateur, (round((ch7.value/1024)*100), msTimestamp())) #Convertir la valeur obtenue en pourcentage
+        cursor.execute(addAccelerateur, (round((ch7.value/1024)*100), TS)) #Convertir la valeur obtenue en pourcentage
         db.commit()
         log("debug", "Terminé (Valeur:" + str(round((ch7.value/1024)*100)) + ")")
         i[4] = dAcc/0.1
