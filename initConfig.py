@@ -44,8 +44,22 @@ configFile = {
        'tempVariator':
         {'allowed':[0,0],
          'warning':[[0,0],[0,0]],
+         'critical':[[0,0],[0,0]]},
+       'tempBattery':
+        {'allowed':[0,0],
+         'warning':[[0,0],[0,0]],
+         'critical':[[0,0],[0,0]]},
+       'speed':
+        {'allowed':[0,0],
+         'warning':[[0,0],[0,0]],
+         'critical':[[0,0],[0,0]]},
+       'current':
+        {'allowed':[0,0],
+         'warning':[[0,0],[0,0]],
          'critical':[[0,0],[0,0]]}
-                                }
+                                },
+      'AverageOverTime':0,
+      'BatteryCapacity':0
                                   }
 while True:
     print(Fore.CYAN + "#1 Configuration de la base de donnée------------------------------------------------- \n")
@@ -176,7 +190,100 @@ while True:
             print(Fore.RED + "[ERREUR] Veuillez entrer un nombre entier.")
             continue
 
-    print(Fore.CYAN + "\n#4 Recapitulatif ------------------------- \n")
+    print(Fore.CYAN + "\n#3.3 Configuration des plages de la batterie \n")
+    while True:
+        try:
+            print(Fore.CYAN + "#3.3.1 Plage normale de fonctionnement : ")
+            nMin = int(input(Fore.WHITE + "Température minimale :\n"))
+            nMax = int(input("\nTempérature maximale :\n"))
+            configFile['ranges']['tempBattery']['allowed'][0] = nMin
+            configFile['ranges']['tempBattery']['allowed'][1] = nMax
+            configFile['ranges']['tempBattery']['warning'][0][1] = nMin
+            configFile['ranges']['tempBattery']['warning'][1][0] = nMax
+            print(Fore.CYAN + "\n#3.3.2 Plages anormales de fonctionnement et nécéssitant une attention particulière :")
+            wMin  = int(input(Fore.WHITE + "Température anormale minimale en dessous de " + str(nMin) + " :\n"))
+            wMax = int(input("\nTempérature anormale maximale au dessus de " + str(nMax) + " :\n"))
+            configFile['ranges']['tempBattery']['warning'][0][0] = wMin
+            configFile['ranges']['tempBattery']['warning'][1][1] = wMax
+            configFile['ranges']['tempBattery']['critical'][0][1] = wMin
+            configFile['ranges']['tempBattery']['critical'][1][0] = wMax
+            print(Fore.CYAN + "\n#3.3.3 Plages critiques de fonctionnement :")
+            cMin = int(input(Fore.WHITE + "Température critique minimale en dessous de " + str(wMin) + " :\n"))
+            cMax = int(input("\nTempérature critique maximale au dessus de " + str(wMax) + " :\n"))
+            configFile['ranges']['tempBattery']['critical'][0][0] = cMin
+            configFile['ranges']['tempBattery']['critical'][1][1] = cMax
+            print(Fore.GREEN + "\nCes valeurs vous conviennent-elles ? (oui/non) \n Fonctionnement normal : [{0},{1}] \n Fonctionnement anormal : [{2},{0}],[{1},{3}] \n Fonctionnement critique : [{4},{2}],[{3},{5}] \n".format(nMin,nMax,wMin,wMax,cMin,cMax))
+            ans = input()
+            if ans.lower() in ["oui", "o"]:
+                break
+            else:
+                continue
+        except ValueError:
+            print(Fore.RED + "[ERREUR] Veuillez entrer un nombre entier.")
+            continue
+
+    print(Fore.CYAN + "\n#3.4 Configuration des plages de vitesse \n")
+    while True:
+        try:
+            print(Fore.CYAN + "#3.4.1 Plage normale de fonctionnement : ")
+            nMin = int(input(Fore.WHITE + "Vitesse minimale :\n"))
+            nMax = int(input("\nVitesse maximale :\n"))
+            configFile['ranges']['speed']['allowed'][0] = nMin
+            configFile['ranges']['speed']['allowed'][1] = nMax
+            configFile['ranges']['speed']['warning'][0] = nMax
+            print(Fore.CYAN + "\n#3.4.2 Plages anormales de fonctionnement et nécéssitant une attention particulière :")
+            wMax = int(input(Fore.WHITE + "\nVitesse anormale maximale au dessus de " + str(nMax) + " :\n"))
+            configFile['ranges']['speed']['warning'][1] = wMax
+            configFile['ranges']['speed']['critical'][0] = wMax
+            print(Fore.CYAN + "\n#3.4.3 Plages critiques de fonctionnement :")
+            cMax = int(input("\n Vitesse critique maximale au dessus de " + str(wMax) + " :\n"))
+            configFile['ranges']['speed']['critical'][1] = cMax
+            print(Fore.GREEN + "\nCes valeurs vous conviennent-elles ? (oui/non) \n Fonctionnement normal : [{0},{1}] \n Fonctionnement anormal : [{1},{2}] \n Fonctionnement critique : [{2},{3}] \n".format(nMin,nMax,wMax,cMax))
+            ans = input()
+            if ans.lower() in ["oui", "o"]:
+                break
+            else:
+                continue
+        except ValueError:
+            print(Fore.RED + "[ERREUR] Veuillez entrer un nombre entier.")
+            continue
+
+    print(Fore.CYAN + "\n#3.5 Configuration des plages d'intensité \n")
+    while True:
+        try:
+            print(Fore.CYAN + "#3.5.1 Plage normale de fonctionnement : ")
+            nMin = int(input(Fore.WHITE + "Intensité minimale (en A):\n"))
+            nMax = int(input("\Intensité maximale (en A):\n"))
+            configFile['ranges']['current']['allowed'][0] = nMin
+            configFile['ranges']['current']['allowed'][1] = nMax
+            configFile['ranges']['current']['warning'][0] = nMax
+            print(Fore.CYAN + "\n#3.5.2 Plages anormales de fonctionnement et nécéssitant une attention particulière :")
+            wMax = int(input(Fore.WHITE + "\nIntensité anormale maximale (en A) au dessus de " + str(nMax) + " :\n"))
+            configFile['ranges']['current']['warning'][1] = wMax
+            configFile['ranges']['current']['critical'][0] = wMax
+            print(Fore.CYAN + "\n#3.5.3 Plages critiques de fonctionnement :")
+            cMax = int(input("\n Intensité critique maximale (en A) au dessus de " + str(wMax) + " :\n"))
+            configFile['ranges']['current']['critical'][1] = cMax
+            print(Fore.GREEN + "\nCes valeurs vous conviennent-elles ? (oui/non) \n Fonctionnement normal : [{0},{1}] \n Fonctionnement anormal : [{1},{2}] \n Fonctionnement critique : [{2},{3}] \n".format(nMin,nMax,wMax,cMax))
+            ans = input()
+            if ans.lower() in ["oui", "o"]:
+                break
+            else:
+                continue
+        except ValueError:
+            print(Fore.RED + "[ERREUR] Veuillez entrer un nombre entier.")
+            continue
+
+    print(Fore.CYAN + "\n#4 Autres configurations\n")
+    while True:
+        try:
+            configFile['BatteryCapacity'] = int(input("Quelle est la capacité de la batterie (en Ah) ?\n"))
+            configFile['AverageOverTime'] = int(input("Quelle valeur de temps (en s) utiliser pour calculer la vitesse moyenne ?\n"))
+            break
+        except ValueError:
+            print(Fore.RED + "[ERREUR] Veuillez entrer un nombre entier")
+            continue
+    print(Fore.CYAN + "\n#5 Recapitulatif ------------------------- \n")
     print(json.dumps(configFile, indent=2))
     print(Fore.GREEN + "\n Ces valeurs vous conviennent-elles ? (oui/non)\n")
     ans = input()
