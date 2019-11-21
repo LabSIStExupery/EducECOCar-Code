@@ -30,7 +30,7 @@
 #  1 = Normal
 #  2 = Avancé (Capteur de vitesse)
 isDebugOn = 1
-# Désactiver le logging externe ? Les logs seront affichés dans l'interpréteur python.
+# Désactiver le logging externe ? (= False)  Les logs seront affichés dans l'interpréteur python.
 externalLogs = False
 
 import busio
@@ -108,10 +108,10 @@ def speedThread(pin, diam, trigger, angle):
     log("advDebug", "Thread vitesse initialisé.")
     while True:
         diff = trigger + 1
-        while diff > trigger:
-            GPIO.setup(pin, GPIO.OUT)
-            GPIO.output(pin, GPIO.HIGH)
-            sleep(0.000010)
+        while diff > trigger: #On envoie une impulsion au capteur pendans 10µs. Ensuite, le capteur renvoie une tension pendant une certaine durée. Si cette durée est supérieure au seuil de déclenchement fixé, 
+            GPIO.setup(pin, GPIO.OUT) # alors cela signifie que le capteur a détecté quelque chose. On enregistre donc le temps qu'il a mis depuis le dernier déclenchement (variable turnDelay) et, en fonction 
+            GPIO.output(pin, GPIO.HIGH) #de l'angle parcourue et du périmètre de la roue, en déduit la distance parcourue et donc la vitesse. Enfin, on attend que le capteur redescende en dessous du seuil
+            sleep(0.000010) # de déclenchement et on recommence.
             GPIO.setup(pin, GPIO.IN)
             startTime = round(time.time() * 1000000)
             while(GPIO.input(pin) == GPIO.HIGH and round(time.time() * 1000000) - startTime < 3000):
@@ -120,7 +120,7 @@ def speedThread(pin, diam, trigger, angle):
         log("advDebug", "Seuil de déclenchement atteint. Durée depuis le dernier déclenchement : {}ms".format(turnDelay))
         lastTime = msTimestamp()
         with lock:
-            actualSpeed = ((pi*diam)/(360/angle))/(turnDelay) * 36
+            actualSpeed = round((((pi*diam)/(360/angle))/(turnDelay) * 36),3)
             log("advDebug", "Vitesse enregistrée : {}km/h".format(actualSpeed))
         while diff < trigger:
              GPIO.setup(pin, GPIO.OUT)
@@ -133,7 +133,7 @@ def speedThread(pin, diam, trigger, angle):
 
 
 
-#Programme principal
+#Début du programme principal
 log("info","Démarrage de parser.py... Timestamp : {}ms".format(msTimestamp()))
 
 #IINITIALISATION DU MCP(Convertisseur Analogique/Numérique)-------------------------------------------------------
@@ -151,7 +151,7 @@ ch6 = AnalogIn(mcp, MCP.P6) #MCP3008 CH6 : Capteur de température n°3
 ch7 = AnalogIn(mcp, MCP.P7) #MCP3008 CH7 : Position de l'accélérateur
 log("info", "Initialisation du MCP Terminée")
 #INITIALISATION DE LA CONFIGURATION------------------------------------------------------------------------------
-#Vérifier si le fichier de config existe, sinon le créer
+#Vérifier si le fichier de config existe, sinon quitter.
 log("debug", "Récupération de la configuration...")
 if os.path.exists("/home/pi/config.json"):
     log("debug", "Le fichier de configuration existe")
@@ -226,13 +226,14 @@ if externalLogs:
     log("info", "Basculement du système de logs vers celui de la base de données.")
     connectedToDB = True
 log("info", "Initilisation terminée.")
+
 #METTRE A JOUR LA BDD-----------------------------------------------------------------------------------------------
 #Lancer l'acquisition de la vitesse en parallèle:
 try:
     log("debug", "Lancement du thread secondaire vitesse avec les paramètres suivants : \n Pin du capteur : {} \n Diamètre de la roue : {} \n Seuil de déclenchement : {} \n Angle de mesure : {}".format(ch8Pin, wheelDiam, triggerValue, angleValue))
-    thread = Thread(target=speedThread, args=(ch8Pin, wheelDiam, triggerValue, angleValue))
+    thread = Thread(target=speedThread, args=(ch8Pin, wheelDiam, triggerValue, angleValue)) #Lance en tant que thread parallèle la fonction speedThread avec les arguments issus du fichier de config
     thread.start()
-    log("Thread secondaire vitesse lancé")
+    log("info", "Thread secondaire vitesse lancé")
 except:
     log("critical", "Impossible de lancer le thread secondaire vitesse !")
     exit()
@@ -240,23 +241,29 @@ except:
 #Mettre à jour la BDD
 i = [dInt/0.1, dBatt/0.1, dSpeed/0.1, dTemp/0.1, dAcc/0.1] #Créer un liste contenant le délai (en multiples de 0.1s) pour chaque capteur
 log("debug", "Délai des capteurs : \n Intensité : {}s \n Batterie : {}s \n Vitesse : {}s \n Température : {}s \n Position de l'accélérateur : {}s".format(dInt,dBatt,dSpeed,dTemp,dAcc))
+log("info", "Programme principal lancé")
+
 while True:
     sleep(0.1)
     for n,null in enumerate(i): #A chaque réitération, attendre 0.1 s et diminuer tous les éléments de la liste de 1
         i[n] += -1
-    TS = msTimestamp() #Meme Timestamp pour toutes les valeurs ajoutées à la base de donnée
+    TS = msTimestamp() #Même Timestamp pour toutes les valeurs ajoutées à la base de donnée
     #Si le "compte à rebours" atteint 0, mettre à jour la table correspondante et remettre le compteur à sa valeur initiale.
     if i[0] == 0:
         log("debug", "Acquisition de l'Intensité")
-        cursor.execute(addIntensite, (round(ch0.value*1000), TS)) #Arrondir l'intensité obtenue en mA
+        intensite = round(ch0.value*1000) #Arrondir l'intensité obtenue en mA
+        cursor.execute(addIntensite, (intensite, TS))
         db.commit()
-        log("debug", "Terminé (Valeur:" +str(round(ch0.value*1000)) + ")")
+        log("debug", "Terminé (Valeur:" +str(intensite) + ")")
         i[0] = dInt/0.1
     if i[1] == 0:
         log("debug", "Acquisition des tensions de la batterie")
-        cursor.execute(addBatterie, (ch1.voltage, ch2.voltage, ch3.voltage, TS))
+        tension1 = ch1.voltage
+        tension2 = ch2.voltage
+        tension3 = ch3.voltage
+        cursor.execute(addBatterie, (tension1, tension2, tension3,  TS))
         db.commit()
-        log("debug", "Terminé (Valeurs:" + str(ch1.voltage) + " " + str(ch2.voltage) + " " + str(ch3.voltage)  + ")")
+        log("debug", "Terminé (Valeurs:" + str(tension1) + " " + str(tension2) + " " + str(tension3)  + ")")
         i[1] = dBatt/0.1
     if i[2] == 0:
         log("debug", "Acquisition de la vitesse")
@@ -267,16 +274,17 @@ while True:
         i[2] = dSpeed/0.1
     if i[3] == 0:
         log("debug", "Acquisition des températures")
-        temp4 = (ch4.voltage - 0.5)*100 #Convertir la tension en température pour les 3 capteurs
-        temp5 = (ch5.voltage - 0.5)*100
-        temp6 = (ch6.voltage - 0.5)*100
+        temp4 = (ch4.voltage*1.515 - 0.5)*100 #Convertir la tension en température pour les 3 capteurs (le capteur renvoie une valeur entre 0 et 3.3V, le MCP fonctionne sous 5V : il faut donc multiplier la tension par ~1.515151...)
+        temp5 = (ch5.voltage*1.515 - 0.5)*100
+        temp6 = (ch6.voltage*1.515 - 0.5)*100
         cursor.execute(addTemperature, (temp4, temp5, temp6, TS))
         db.commit()
         log("debug", "Terminé (Valeurs:" + str(temp4) + " " + str(temp5) + " " + str(temp6)  + ")")
         i[3] = dTemp/0.1
     if i[4] == 0:
         log("debug", "Acquisition de la position de l'accélérateur")
-        cursor.execute(addAccelerateur, (round((ch7.value/1024)*100), TS)) #Convertir la valeur obtenue en pourcentage
+        posAcc = (round((ch7.value/65500)*100)) #Convertir la valeur obtenue en pourcentage
+        cursor.execute(addAccelerateur, (posAcc, TS))
         db.commit()
-        log("debug", "Terminé (Valeur:" + str(round((ch7.value/1024)*100)) + ")")
+        log("debug", "Terminé (Valeur:" + str(posAcc) + ")")
         i[4] = dAcc/0.1
