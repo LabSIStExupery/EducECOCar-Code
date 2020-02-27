@@ -56,6 +56,7 @@ lock = RLock()
 connectedToDB = False
 
 msTimestamp = lambda: int(round(time.time() * 1000)) #Permet de générer un Timestamp, en ms.
+µsTimestamp = lambda: int(round(time.time() * 1000000)) #Permet de générer un Timestamp, en µs.
 
 # Système de logs
 # Avant la connexion à la BDD, écrit les logs vers un fichier /home/pi/parser.log
@@ -104,7 +105,8 @@ def speedThread(pin, diam, trigger, angle):
     actualSpeed=0
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
-    lastTime = msTimestamp()
+    lastTime = µsTimestamp()
+    sleep(0.1)
     log("advDebug", "Thread vitesse initialisé.")
     while True:
         diff = trigger + 1
@@ -116,11 +118,11 @@ def speedThread(pin, diam, trigger, angle):
             startTime = round(time.time() * 1000000)
             while(GPIO.input(pin) == GPIO.HIGH and round(time.time() * 1000000) - startTime < 3000):
                 diff = round(time.time() * 1000000) - startTime
-        turnDelay = msTimestamp() - lastTime
+        turnDelay = µsTimestamp() - lastTime
         log("advDebug", "Seuil de déclenchement atteint. Durée depuis le dernier déclenchement : {}ms".format(turnDelay))
-        lastTime = msTimestamp()
+        lastTime = µsTimestamp()
         with lock:
-            actualSpeed = round((((pi*diam)/(360/angle))/(turnDelay) * 36),3)
+            actualSpeed = round((((pi*diam)/(360/angle))/(turnDelay/1000) * 36),3)
             log("advDebug", "Vitesse enregistrée : {}km/h".format(actualSpeed))
         while diff < trigger:
              GPIO.setup(pin, GPIO.OUT)
@@ -130,7 +132,6 @@ def speedThread(pin, diam, trigger, angle):
              startTime = round(time.time() * 1000000)
              while(GPIO.input(pin) == GPIO.HIGH and round(time.time() * 1000000) - startTime < 3000):
                  diff = round(time.time() * 1000000) - startTime
-
 
 
 #Début du programme principal
@@ -247,44 +248,46 @@ while True:
     sleep(0.1)
     for n,null in enumerate(i): #A chaque réitération, attendre 0.1 s et diminuer tous les éléments de la liste de 1
         i[n] += -1
-    TS = msTimestamp() #Même Timestamp pour toutes les valeurs ajoutées à la base de donnée
     #Si le "compte à rebours" atteint 0, mettre à jour la table correspondante et remettre le compteur à sa valeur initiale.
     if i[0] == 0:
         log("debug", "Acquisition de l'Intensité")
-        intensite = round(ch0.value*1000) #Arrondir l'intensité obtenue en mA
-        cursor.execute(addIntensite, (intensite, TS))
+        intensite = round(ch0.value/10) #Arrondir l'intensité obtenue en mA
+        cursor.execute(addIntensite, (intensite, msTimestamp()))
         db.commit()
         log("debug", "Terminé (Valeur:" +str(intensite) + ")")
         i[0] = dInt/0.1
     if i[1] == 0:
         log("debug", "Acquisition des tensions de la batterie")
-        tension1 = ch1.voltage
-        tension2 = ch2.voltage
-        tension3 = ch3.voltage
-        cursor.execute(addBatterie, (tension1, tension2, tension3,  TS))
+        tension1 = ch1.voltage*3.2*1.51515 #Tension aux bornes de la batterie (Cellules 0,1 et 2) : Récupérer la tension originelle avant le pont diviseur par 3.2, et convertir la valeur récupérée de 3.3 à 5V (La Library est prévue pour fonctionner sous 3.3V, le MCP est ici sous 5V)
+        tension2 = ch2.voltage*2*1.51515 #Tension aux bornes des Cellules 0 et 1 (GND et Fil d'équilibrage +), Pont diviseur par 2
+        tension3 = ch3.voltage*1.51515   #Tension aux bornes de la cellule 0 (GND et Fil d'équilibrage -), Pas de pont diviseur
+        tensionCell0 = round(tension3,3) #La tension 3 est directement aux bornes de la cellule 0
+        tensionCell1 = round(tension2-tension3,3) #La tension de la cellule 1 est obtenue par la soustraction de la tension aux bornes des cellules 0 et 1, par celle aux bornes de la cellule 0
+        tensionCell2 = round(tension1-tension2,3) #Même principe que précédemment, la tension de la cellule 2 est obtenue par la soustraction de la tension aux bornes de la batterie par celle des cellules 0 et 1
+        cursor.execute(addBatterie, (tensionCell0, tensionCell1, tensionCell2,  msTimestamp()))
         db.commit()
-        log("debug", "Terminé (Valeurs:" + str(tension1) + " " + str(tension2) + " " + str(tension3)  + ")")
+        log("debug", "Terminé (Valeurs: {}V {}V {}V".format(tensionCell0,tensionCell1,tensionCell2))
         i[1] = dBatt/0.1
     if i[2] == 0:
         log("debug", "Acquisition de la vitesse")
         with lock:
             speed = actualSpeed
-        cursor.execute(addVitesse, (speed, TS)) #Récupérer la vitesse dans le thread parallèle définit plus haut
+        cursor.execute(addVitesse, (speed, msTimestamp())) #Récupérer la vitesse dans le thread parallèle définit plus haut
         log("debug", "Terminé (Valeur: " + str(speed) + "km/h)")
         i[2] = dSpeed/0.1
     if i[3] == 0:
         log("debug", "Acquisition des températures")
-        temp4 = (ch4.voltage*1.515 - 0.5)*100 #Convertir la tension en température pour les 3 capteurs (le capteur renvoie une valeur entre 0 et 3.3V, le MCP fonctionne sous 5V : il faut donc multiplier la tension par ~1.515151...)
-        temp5 = (ch5.voltage*1.515 - 0.5)*100
-        temp6 = (ch6.voltage*1.515 - 0.5)*100
-        cursor.execute(addTemperature, (temp4, temp5, temp6, TS))
+        temp4 = round((ch4.voltage*1.515 - 0.5)*100,1) #Convertir la tension en température pour les 3 capteurs (le capteur renvoie une valeur entre 0 et 3.3V, le MCP fonctionne sous 5V : il faut donc multiplier la tension par ~1.515151...)
+        temp5 = round((ch5.voltage*1.515 - 0.5)*100,1)
+        temp6 = round((ch6.voltage*1.515 - 0.5)*100,1)
+        cursor.execute(addTemperature, (temp4, temp5, temp6, msTimestamp()))
         db.commit()
         log("debug", "Terminé (Valeurs:" + str(temp4) + " " + str(temp5) + " " + str(temp6)  + ")")
         i[3] = dTemp/0.1
     if i[4] == 0:
         log("debug", "Acquisition de la position de l'accélérateur")
         posAcc = (round((ch7.value/65500)*100)) #Convertir la valeur obtenue en pourcentage
-        cursor.execute(addAccelerateur, (posAcc, TS))
+        cursor.execute(addAccelerateur, (posAcc, msTimestamp()))
         db.commit()
         log("debug", "Terminé (Valeur:" + str(posAcc) + ")")
         i[4] = dAcc/0.1
