@@ -7,16 +7,16 @@
         "delayAccelerateur": 1.0
     },
     "database": {
-        "databaseUser": "Educeco",
+        "databaseUser": "pi",
         "databaseName": "Educeco",
-        "databasePassword": "educeco",
-        "databaseHost": "news-craft.fr"
+        "databasePassword": "labsi",
+        "databaseHost": "localhost"
     },
     "speedSensor": {
-        "diametreRoue": 10.0,
-        "pinBranchementVitesse": 4,
-        "triggerValue": 20,
-        "angleValue": 20
+        "diametreRoue": 45.0,
+        "pinBranchementVitesse": 6,
+        "triggerValue": 500,
+        "angleValue": 60
     },
     "ranges": {
         "tempMotor": {
