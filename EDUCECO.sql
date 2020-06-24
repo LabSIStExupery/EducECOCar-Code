@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le :  jeu. 21 nov. 2019 à 22:41
--- Version du serveur :  10.2.24-MariaDB-10.2.24+maria~stretch-log
--- Version de PHP :  7.0.33-8+0~20190531121058.14+stretch~1.gbpe7d4ff
+-- Hôte : 127.0.0.1:3306
+-- Généré le :  mer. 24 juin 2020 à 10:07
+-- Version du serveur :  10.4.10-MariaDB
+-- Version de PHP :  7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,262 +19,154 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `Educeco`
+-- Base de données :  `educeco`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `AcceleratorPosition`
+-- Structure de la table `acceleratorposition`
 --
 
-CREATE TABLE `AcceleratorPosition` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `acceleratorposition`;
+CREATE TABLE IF NOT EXISTS `acceleratorposition` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Position` int(11) NOT NULL,
-  `TIMESTAMP` int(11) NOT NULL
+  `TS` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Battery`
+-- Structure de la table `battery`
 --
 
-CREATE TABLE `Battery` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `battery`;
+CREATE TABLE IF NOT EXISTS `battery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Cell1` float NOT NULL,
   `Cell2` float NOT NULL,
   `Cell3` float NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Current`
+-- Structure de la table `current`
 --
 
-CREATE TABLE `Current` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `current`;
+CREATE TABLE IF NOT EXISTS `current` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Current` float NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Logs`
+-- Structure de la table `logs`
 --
 
-CREATE TABLE `Logs` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Process` varchar(10) NOT NULL,
   `TYPE` varchar(10) NOT NULL,
   `Message` text NOT NULL,
-  `TIMESTAMP` int(11) NOT NULL
+  `TS` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `PAutonomy`
+-- Structure de la table `pautonomy`
 --
 
-CREATE TABLE `PAutonomy` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pautonomy`;
+CREATE TABLE IF NOT EXISTS `pautonomy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Time` int(11) NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `PBattery`
+-- Structure de la table `pbattery`
 --
 
-CREATE TABLE `PBattery` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pbattery`;
+CREATE TABLE IF NOT EXISTS `pbattery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Percentage` int(11) NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `PDistance`
+-- Structure de la table `pdistance`
 --
 
-CREATE TABLE `PDistance` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pdistance`;
+CREATE TABLE IF NOT EXISTS `pdistance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Distance` float NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `PInstantPower`
+-- Structure de la table `pinstantpower`
 --
 
-CREATE TABLE `PInstantPower` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pinstantpower`;
+CREATE TABLE IF NOT EXISTS `pinstantpower` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Power` float NOT NULL,
-  `TIMESTAMP` float NOT NULL
+  `TS` float NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Speed`
+-- Structure de la table `speed`
 --
 
-CREATE TABLE `Speed` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `speed`;
+CREATE TABLE IF NOT EXISTS `speed` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Speed` float NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Temperature`
+-- Structure de la table `temperature`
 --
 
-CREATE TABLE `Temperature` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `temperature`;
+CREATE TABLE IF NOT EXISTS `temperature` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Temp1` float NOT NULL,
   `Temp2` float NOT NULL,
   `Temp3` float NOT NULL,
-  `TIMESTAMP` bigint(20) NOT NULL
+  `TS` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `AcceleratorPosition`
---
-ALTER TABLE `AcceleratorPosition`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `Battery`
---
-ALTER TABLE `Battery`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `Current`
---
-ALTER TABLE `Current`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `Logs`
---
-ALTER TABLE `Logs`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Index pour la table `PAutonomy`
---
-ALTER TABLE `PAutonomy`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `PBattery`
---
-ALTER TABLE `PBattery`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `PDistance`
---
-ALTER TABLE `PDistance`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `PInstantPower`
---
-ALTER TABLE `PInstantPower`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `Speed`
---
-ALTER TABLE `Speed`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `Temperature`
---
-ALTER TABLE `Temperature`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `AcceleratorPosition`
---
-ALTER TABLE `AcceleratorPosition`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `Battery`
---
-ALTER TABLE `Battery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `Current`
---
-ALTER TABLE `Current`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `Logs`
---
-ALTER TABLE `Logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `PAutonomy`
---
-ALTER TABLE `PAutonomy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `PBattery`
---
-ALTER TABLE `PBattery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `PDistance`
---
-ALTER TABLE `PDistance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `PInstantPower`
---
-ALTER TABLE `PInstantPower`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `Speed`
---
-ALTER TABLE `Speed`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `Temperature`
---
-ALTER TABLE `Temperature`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
