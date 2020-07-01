@@ -1,0 +1,562 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Generation Time: Jul 01, 2020 at 09:28 AM
+-- Server version: 10.0.28-MariaDB-2+b1
+-- PHP Version: 7.1.20-1+b2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `Educeco`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AcceleratorPosition`
+--
+
+CREATE TABLE `AcceleratorPosition` (
+  `id` int(11) NOT NULL,
+  `Position` int(11) NOT NULL,
+  `TS` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `AcceleratorPosition`
+--
+
+INSERT INTO `AcceleratorPosition` (`id`, `Position`, `TS`) VALUES
+(1, 1, 1584031606078),
+(2, 1, 1584031609243),
+(3, 1, 1584031693256),
+(4, 1, 1584031698451),
+(5, 1, 1584031703250),
+(6, 1, 1584031891403),
+(7, 1, 1584031937222),
+(8, 1, 1584032200776),
+(9, 1, 1584032617945),
+(10, 1, 1584032642334);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Battery`
+--
+
+CREATE TABLE `Battery` (
+  `id` int(11) NOT NULL,
+  `Cell1` float NOT NULL,
+  `Cell2` float NOT NULL,
+  `Cell3` float NOT NULL,
+  `TS` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Battery`
+--
+
+INSERT INTO `Battery` (`id`, `Cell1`, `Cell2`, `Cell3`, `TS`) VALUES
+(1, 3.931, 3.911, 3.861, 1584031606078),
+(2, 3.936, 3.906, 3.846, 1584031609243),
+(3, 3.95, 3.95, 3.803, 1584031693256),
+(4, 3.965, 3.916, 3.807, 1584031698451),
+(5, 3.931, 3.921, 3.898, 1584031703250),
+(6, 3.931, 3.921, 3.82, 1584031891403),
+(7, 3.975, 3.936, 3.84, 1584031894372),
+(8, 3.926, 3.916, 3.846, 1584031937222),
+(9, 3.926, 3.926, 3.836, 1584032200776),
+(10, 3.906, 3.916, 3.85, 1584032617945),
+(11, 3.911, 3.911, 3.912, 1584032642334);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Current`
+--
+
+CREATE TABLE `Current` (
+  `id` int(11) NOT NULL,
+  `Current` int(11) NOT NULL,
+  `TS` bigint(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Current`
+--
+
+INSERT INTO `Current` (`id`, `Current`, `TS`) VALUES
+(1, 710, 1584031606078),
+(2, 685, 1584031609243),
+(3, 710, 1584031693256),
+(4, 710, 1584031698451),
+(5, 704, 1584031703250),
+(6, 698, 1584031708051),
+(7, 710, 1584031891403),
+(8, 698, 1584031894372),
+(9, 704, 1584031937222),
+(10, 704, 1584032200776),
+(11, 691, 1584032204264),
+(12, 730, 1584032617945),
+(13, 736, 1584032642334),
+(14, 717, 1584032645895);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Logs`
+--
+
+CREATE TABLE `Logs` (
+  `id` int(11) NOT NULL,
+  `Process` varchar(10) NOT NULL,
+  `TYPE` varchar(10) NOT NULL,
+  `Message` text NOT NULL,
+  `TIMESTAMP` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PAutonomy`
+--
+
+CREATE TABLE `PAutonomy` (
+  `id` int(11) NOT NULL,
+  `Time` int(11) NOT NULL,
+  `TS` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `PAutonomy`
+--
+
+INSERT INTO `PAutonomy` (`id`, `Time`, `TS`) VALUES
+(1, 451, 1584032644395),
+(2, 451, 1584032644676),
+(3, 451, 1584032644809),
+(4, 451, 1584032644921),
+(5, 451, 1584032645168),
+(6, 451, 1584032645387),
+(7, 451, 1584032645571),
+(8, 451, 1584032645780),
+(9, 451, 1584032646054),
+(10, 451, 1584032646344),
+(11, 454, 1584032646530),
+(12, 454, 1584032646777);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PBattery`
+--
+
+CREATE TABLE `PBattery` (
+  `id` int(11) NOT NULL,
+  `Percentage` int(11) NOT NULL,
+  `TS` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `PBattery`
+--
+
+INSERT INTO `PBattery` (`id`, `Percentage`, `TS`) VALUES
+(2, 66, 1584031609243),
+(3, 66, 1584031609243),
+(4, 67, 1584031693256),
+(5, 67, 1584031693256),
+(6, 67, 1584031693256),
+(7, 67, 1584031693256),
+(8, 67, 1584031693256),
+(9, 67, 1584031693256),
+(10, 67, 1584031693256),
+(11, 67, 1584031693256),
+(12, 67, 1584031693256),
+(13, 67, 1584031693256),
+(14, 67, 1584031693256),
+(15, 67, 1584031693256),
+(16, 67, 1584031693256),
+(17, 67, 1584031693256),
+(18, 67, 1584031693256),
+(19, 67, 1584031693256),
+(20, 67, 1584031693256),
+(21, 67, 1584031693256),
+(22, 67, 1584031693256),
+(23, 66, 1584031698451),
+(24, 66, 1584031698451),
+(25, 66, 1584031698451),
+(26, 66, 1584031698451),
+(27, 66, 1584031698451),
+(28, 66, 1584031698451),
+(29, 66, 1584031698451),
+(30, 66, 1584031698451),
+(31, 66, 1584031698451),
+(32, 66, 1584031698451),
+(33, 66, 1584031698451),
+(34, 66, 1584031698451),
+(35, 66, 1584031698451),
+(36, 66, 1584031698451),
+(37, 66, 1584031698451),
+(38, 66, 1584031698451),
+(39, 66, 1584031698451),
+(40, 66, 1584031698451),
+(41, 66, 1584031698451),
+(42, 70, 1584031703250),
+(43, 70, 1584031703250),
+(44, 70, 1584031703250),
+(45, 70, 1584031703250),
+(46, 70, 1584031703250),
+(47, 70, 1584031703250),
+(48, 70, 1584031703250),
+(49, 70, 1584031703250),
+(50, 70, 1584031703250),
+(51, 70, 1584031703250),
+(52, 70, 1584031703250),
+(53, 70, 1584031703250),
+(54, 70, 1584031703250),
+(55, 70, 1584031703250),
+(56, 70, 1584031703250),
+(57, 70, 1584031703250),
+(58, 70, 1584031703250),
+(59, 70, 1584031703250),
+(60, 70, 1584031703250),
+(62, 65, 1584031891403),
+(63, 65, 1584031891403),
+(64, 65, 1584031891403),
+(65, 65, 1584031891403),
+(66, 65, 1584031891403),
+(67, 65, 1584031891403),
+(68, 65, 1584031891403),
+(69, 65, 1584031891403),
+(70, 65, 1584031891403),
+(71, 65, 1584031891403),
+(72, 65, 1584031891403),
+(73, 65, 1584031891403),
+(75, 66, 1584031937222),
+(76, 66, 1584031937222),
+(77, 66, 1584031937222),
+(78, 66, 1584031937222),
+(79, 66, 1584031937222),
+(80, 66, 1584031937222),
+(84, 69, 1584032642334),
+(85, 69, 1584032642334),
+(86, 69, 1584032642334),
+(87, 69, 1584032642334),
+(88, 69, 1584032642334),
+(89, 69, 1584032642334),
+(90, 69, 1584032642334),
+(91, 69, 1584032642334),
+(92, 69, 1584032642334),
+(93, 69, 1584032642334),
+(94, 69, 1584032642334),
+(95, 69, 1584032642334);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PDistance`
+--
+
+CREATE TABLE `PDistance` (
+  `id` int(11) NOT NULL,
+  `Distance` float NOT NULL,
+  `TS` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `PDistance`
+--
+
+INSERT INTO `PDistance` (`id`, `Distance`, `TS`) VALUES
+(1, 0, 1584031695458),
+(2, 0, 1584031695722),
+(3, 0, 1584031696008),
+(4, 0, 1584031696360),
+(5, 0, 1584031696572),
+(6, 0, 1584031696807),
+(7, 0, 1584031697100),
+(8, 0, 1584031697416),
+(9, 0, 1584031697571),
+(10, 0, 1584031697716),
+(11, 0, 1584031697896),
+(12, 0, 1584031698148),
+(13, 0, 1584031698322),
+(14, 0, 1584031698495),
+(15, 0, 1584031698683),
+(16, 0, 1584031698972),
+(17, 0, 1584031699182),
+(18, 0, 1584031699530),
+(19, 0, 1584031699794),
+(20, 0, 1584031700059),
+(21, 0, 1584031700284),
+(22, 0, 1584031700627),
+(23, 0, 1584031700879),
+(24, 0, 1584031701160),
+(25, 0, 1584031701426),
+(26, 0, 1584031701626),
+(27, 0, 1584031701896),
+(28, 0, 1584031702170),
+(29, 0, 1584031702455),
+(30, 0, 1584031702666),
+(31, 0, 1584031702875),
+(32, 0, 1584031703007),
+(33, 0, 1584031703253),
+(34, 0, 1584031703521),
+(35, 0, 1584031703791),
+(36, 0, 1584031704107),
+(37, 0, 1584031704362),
+(38, 0, 1584031704574),
+(39, 0, 1584031704840),
+(40, 0, 1584031705095),
+(41, 0, 1584031705382),
+(42, 0, 1584031705623),
+(43, 0, 1584031705909),
+(44, 0, 1584031706200),
+(45, 0, 1584031706360),
+(46, 0, 1584031706520),
+(47, 0, 1584031706775),
+(48, 0, 1584031707043),
+(49, 0, 1584031707237),
+(50, 0, 1584031707440),
+(51, 0, 1584031707691),
+(52, 0, 1584031707859),
+(53, 0, 1584031708036),
+(54, 0, 1584031708270),
+(55, 0, 1584031708508),
+(56, 0, 1584031708758),
+(57, 0, 1584031709033),
+(58, 0, 1584031709264),
+(59, 0, 1584031709470),
+(60, 0, 1584031893511),
+(61, 0, 1584031893685),
+(62, 0, 1584031893870),
+(63, 0, 1584031894038),
+(64, 0, 1584031894200),
+(65, 0, 1584031894365),
+(66, 0, 1584031894766),
+(67, 0, 1584031895093),
+(68, 0, 1584031895387),
+(69, 0, 1584031895713),
+(70, 0, 1584031895928),
+(71, 0, 1584031896163),
+(72, 0, 1584031939356),
+(73, 0, 1584031939712),
+(74, 0, 1584031939975),
+(75, 0, 1584031940153),
+(76, 0, 1584031940363),
+(77, 0, 1584031940631),
+(78, 0, 1584032644439),
+(79, 0, 1584032644710),
+(80, 0.0235748, 1584032644839),
+(81, 0.0235748, 1584032644976),
+(82, 0.0235748, 1584032645214),
+(83, 0.0235748, 1584032645403),
+(84, 0.0235748, 1584032645610),
+(85, 0.0235748, 1584032645861),
+(86, 0.0235748, 1584032646149),
+(87, 0.0235748, 1584032646390),
+(88, 0.0235748, 1584032646567),
+(89, 0.0235748, 1584032646877);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PInstantPower`
+--
+
+CREATE TABLE `PInstantPower` (
+  `id` int(11) NOT NULL,
+  `Power` float NOT NULL,
+  `TS` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Speed`
+--
+
+CREATE TABLE `Speed` (
+  `id` int(11) NOT NULL,
+  `Speed` float NOT NULL,
+  `TS` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Speed`
+--
+
+INSERT INTO `Speed` (`id`, `Speed`, `TS`) VALUES
+(1, 0, 1584031606078),
+(2, 0, 1584031609243),
+(3, 0, 1584031693256),
+(4, 0, 1584031698451),
+(5, 0, 1584031703250),
+(6, 0, 1584031891403),
+(8, 0, 1584031937222),
+(9, 0, 1584032200776),
+(10, 0, 1584032617945),
+(11, 0.819, 1584032642334);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Temperature`
+--
+
+CREATE TABLE `Temperature` (
+  `id` int(11) NOT NULL,
+  `Temp1` float NOT NULL,
+  `Temp2` float NOT NULL,
+  `Temp3` float NOT NULL,
+  `TS` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Temperature`
+--
+
+INSERT INTO `Temperature` (`id`, `Temp1`, `Temp2`, `Temp3`, `TS`) VALUES
+(1, -46.6, -47.1, -46.1, 1584031606078),
+(2, -46.6, -46.1, -46.6, 1584031609243),
+(3, -47.1, -46.1, -46.1, 1584031693256),
+(4, -46.6, -46.6, -46.1, 1584031698451),
+(5, -46.6, -46.6, -46.1, 1584031703250),
+(6, -46.6, -46.6, -46.6, 1584031891403),
+(7, -46.6, -46.6, -46.1, 1584031937222),
+(8, -46.6, -47.1, -46.1, 1584032200776),
+(9, -46.1, -46.6, -46.1, 1584032617945),
+(10, -46.6, -46.6, -45.6, 1584032642334);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `AcceleratorPosition`
+--
+ALTER TABLE `AcceleratorPosition`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Battery`
+--
+ALTER TABLE `Battery`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Current`
+--
+ALTER TABLE `Current`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Logs`
+--
+ALTER TABLE `Logs`
+  ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `PAutonomy`
+--
+ALTER TABLE `PAutonomy`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `PBattery`
+--
+ALTER TABLE `PBattery`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `PDistance`
+--
+ALTER TABLE `PDistance`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `PInstantPower`
+--
+ALTER TABLE `PInstantPower`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Speed`
+--
+ALTER TABLE `Speed`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Temperature`
+--
+ALTER TABLE `Temperature`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `AcceleratorPosition`
+--
+ALTER TABLE `AcceleratorPosition`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `Battery`
+--
+ALTER TABLE `Battery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `Current`
+--
+ALTER TABLE `Current`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `Logs`
+--
+ALTER TABLE `Logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `PAutonomy`
+--
+ALTER TABLE `PAutonomy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `PBattery`
+--
+ALTER TABLE `PBattery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+--
+-- AUTO_INCREMENT for table `PDistance`
+--
+ALTER TABLE `PDistance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+--
+-- AUTO_INCREMENT for table `PInstantPower`
+--
+ALTER TABLE `PInstantPower`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `Speed`
+--
+ALTER TABLE `Speed`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `Temperature`
+--
+ALTER TABLE `Temperature`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
