@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+  <head>
+      <link rel="stylesheet" href="style.css">      
+      <meta charset="UTF-8">
+  </head>
+  <body>
+      <div id="errors" class="border">
+        <div class="error" id="err1">
+          <p class="errTitle">Température</p>
+          <p class="errContent">Variateur : 65°C</p>
+        </div>
+        <div class="error" id="err2">
+          <p class="errTitle">Vitesse</p>
+          <p class="errContent">Vitesse : 270 km/h</p>
+        </div>
+        <div class="error" id="err3">
+          <p class="errTitle">Batterie</p>
+          <p class="errContent">Restant : 6%</p>
+        </div>
+      </div>
+      <div id="mainScreen" style="display: none;">
+        <div id="main">
+            <div id="battery">
+              <div id="batteryinfos">
+                <div class="valuecontainer" id="percentageC">
+                  <p id="percentage">41</p>
+                  <p class="unit">%</p>
+                </div>
+                <div class="valuecontainer" id="remainingtimeC">
+                  <p id="hours">0
+                  <p class="unit">h
+                  <p id="minutes">52  
+                </div>
+              </div>
+              <div id="batterybar">
+                <div id="remainingbattery"></div>
+              </div>
+            </div>
+            <div id="counter">
+              <div class="valuecontainer" id="speedC">
+                <p id="speed">21.3</p>
+                <p class="unit">km/h</p>
+              </div>
+              <div class="valuecontainer" id="powerC">
+                <p id="power">332</p>
+                <p class="unit">W</p>
+              </div>
+              <svg height="280" width="400">
+                  <path id="counterCircle" fill="none" stroke="#000000" stroke-width="7" d="M 351 275.5 A 175 175 0 1 0 48 275.5 M 353 275 h -50 M 45 275  h 50"/>
+              </svg>
+            </div>
+            <div id="pedal">
+              <div id="pedalbackground"></div>
+              <div id="pedalcontainer">
+                <div id="pedalpedal"></div>
+              </div>
+            </div>
+        </div>
+        <div id="data">
+          <div id="avgspeedCC">
+            <div class="valuetext"><p>Vitesse Moyenne :</p></div>
+            <div id="avgspeedC">
+              <p id="avgspeed">28.7</p>
+              <p class="unit">km/h</p>
+            </div>
+          </div>
+          <div id="distanceCC">
+            <div class="valuetext"><p>Distance :</p></div>
+            <div id="distanceC">
+              <p id="distance">3.1</p>
+              <p class="unit">km</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="temp" style="display: none;">
+        <div id="temp1" class="tempCC">
+            <div class="tempC">
+              <p class="title">Batterie</p>
+              <p id="temp1V">51.3</p>
+              <p class="unit">°C</p>
+            </div>
+        </div>
+        <div id="temp2" class="tempCC">
+            <div class="tempC">
+              <p class="title">Variateur</p>
+              <p id="temp2V">11.4</p>
+              <p class="unit">°C</p>
+            </div>
+        </div>
+        <div id="temp3" class="tempCC">
+            <div class="tempC">
+              <p class="title">Moteur</p>
+              <p id="temp3V">24.2</p>
+              <p class="unit">°C</p>
+            </div>
+        </div>
+    </div>
+    <div id="electrical" style="display: block;">
+      <div id="battbar">
+        <div id="ebatterybar">
+            <div id="eremainingbattery"></div>
+        </div>
+      </div>
+      <div id="battinfos">
+          <div class="evalue">
+              <div id="eC">
+              <p id="epercentage">62</p>
+              <p class="unit">%</p>
+              </div>
+          </div>
+          <div class="evalue">
+              <div id="eC">
+            <p id="ehours">0
+            <p class="unit">h
+            <p id="eminutes">52 
+                </div>
+          </div>
+          <div class="evalue">
+              <div id="eC">
+              <p id="capacity">4523</p>
+              <p class="unit">mAh</p>
+              </div>
+          </div>
+          <div class="evalue">
+              <div id="eC">
+              <p id="voltage">11.2</p>
+              <p class="unit">V</p>
+              </div>
+          </div>
+      </div>
+      <div id="cellinfo">
+          <div class="cellC">
+              <p class="etitle">Cellule 1</p>
+              <p id="cellVoltage1">3.5</p>
+              <p class="unit">V</p>
+              <div class="cellbarC">
+                <div class="cellbar">
+                    <div id="cellbar1" style="width: 10%;"></div>
+                </div>
+              </div>
+          </div>
+          <div class="cellC">
+              <p class="etitle">Cellule 2</p>
+              <p id="cellVoltage2">3.8</p>
+              <p class="unit">V</p>
+              <div class="cellbarC">
+                <div class="cellbar">
+                    <div id="cellbar2" style="width: 18%;"></div>
+                </div>
+              </div>
+          </div>
+          <div class="cellC">
+              <p class="etitle">Cellule 3</p>
+              <p id="cellVoltage3">3.7</p>
+              <p class="unit">V</p>
+              <div class="cellbarC">
+                <div class="cellbar">
+                    <div id="cellbar3" style="width: 70%;"></div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div id="numericalinfos">
+          <p id="epower">332</p>
+          <p class="unit">W</p>
+      </div>
+  </div>
+      <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+//Main
+{
+    "speed": "21.3",
+    "power" : "332",
+    "percentage" : "55",
+    "hours" : "0",
+    "minutes" : "38",
+    "avgspeed" : "27.1",
+    "distance" : "12.4"
+}
+
+//Temp
+{
+    "temp1" : "52.5",
+    "temp2" : "37.1",
+    "temp3" : "85.1"
+}
+
+//Electrical
+{
+    "percentage" : "66",
+    "hours" : "0",
+    "minutes" : "38",
+    "capacity" : "3265",
+    "cell1voltage" : "3.5",
+    "cell2voltage" : "3.6",
+    "cell3voltage" : "3.4",
+    "cell1bar" : "53",
+    "cell2bar" : "59",
+    "cell3bar" : "47",
+    "power" : "542"
+}
+
+//Errors
+[
+    {"title" : "Température", "content" : "BlahBlahBlah"},
+    {"title" : "BluhBluhBluh", "content" : "HAHAHAH"}
+]

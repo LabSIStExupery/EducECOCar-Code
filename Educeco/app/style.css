@@ -1,0 +1,314 @@
+body{
+    font-family: 'Lato', sans-serif;
+    margin:0; padding:0;
+    overflow: hidden;
+}
+
+.border{
+    border-bottom: 2px solid black;
+}
+
+.unit{
+    font-family: 'Lato', sans-serif;
+    font-size: 55%;
+    font-weight: normal;
+}
+
+.valuecontainer{
+    position:absolute;
+    left:0;
+    right:0;
+    margin:auto;
+    font-family: 'Lato-bold', sans-serif;
+}
+
+.valuecontainer *{
+    display: inline;
+}
+
+#speedC{
+    top:118px;
+    font-size: 85px;
+}
+
+#powerC{
+    top: 215px;
+    font-size: 40px;
+}
+
+#batteryinfos{
+    position: relative;
+    float: left;
+    height: 280px;
+    width: 200px;
+}
+
+#percentageC{
+    top: 10px;
+    font-size: 75px;
+}
+
+#remainingtimeC{
+    padding: 0;
+    top: 180px;
+    font-size: 70px;
+}
+
+#batterybar{
+    position: relative;
+    float: left;    
+    height: 260px;
+    width: 40px;
+    top: 10px;
+    left: 10px;
+
+    border: 2px solid black;
+    background-color: blue
+}
+
+#remainingbattery{
+    width: 100%;
+    height: 59%;
+    background-color: white; 
+}
+
+#pedalbackground{
+    position: relative;
+    float: left;    
+    height: 260px;
+    width: 6px;
+    top: 10px;
+    left: 58px;
+
+    background-color: #000;
+}
+
+#pedalcontainer{
+    height: 258px;
+    width: 65px;
+    position: absolute;
+    top: 4px;
+    left: 29px;
+}
+
+#pedalpedal{
+    position: relative;
+    top: 35%;
+    width: 65px;
+    height: 8px;
+
+    background-color: #000;
+}
+
+#data{
+    margin-left: 35px;
+}
+
+#avgspeedCC{
+    height: 120px;
+    width: 400px;
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+#distanceCC{
+    height: 120px;
+    width: 400px;
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.valuetext{
+    float: left;
+    height: 60px;
+    width: 125px;
+    display: flex;
+    align-items: center;
+
+    font-size: 25px;
+    text-align: center;
+}
+
+#avgspeedC, #distanceC{
+    width: 275px;
+    font-size: 65px;
+    text-align: center; 
+}
+
+#avgspeedC p, #distanceC p{
+    display: inline-block;
+}
+
+.tempCC{
+    height: 320px;
+    width: 250px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#temp1{
+    margin-left: 25px;
+}
+
+.title{
+    font-size: 35px;
+    font-weight: normal;
+}
+
+.tempC{
+    font-size: 50px;
+    margin-top: 25px;
+    font-weight: bold;
+}
+
+#battbar{
+    height: 400px;
+    width: 100px;
+    float: left;
+}
+
+#ebatterybar{
+    width: 80px;
+    height: 380px;
+    margin-left: 8px;
+    margin-top: 8px;
+    border: 2px solid black;
+    background-color: blue
+}
+
+#eremainingbattery{
+    height: 55%;
+    width: 100%;
+    background-color: white;
+}
+
+#battinfos{
+    height: 400px;
+    width: 300px;
+    float: left;
+}
+
+.evalue{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+}
+
+.evalue p{
+    display: inline;
+}
+
+#cellinfo{
+    width: 400px;
+    height: 250px;
+    float: left;
+}
+
+.cellC{
+    height: 250px;
+    width: 131px;
+    margin-left: 2px;
+    padding-top: 60px;
+    float: left;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cellC > *{
+    display: inline;
+    margin: 20px 0px;
+}
+
+.cellbarC{
+    display: block;
+    width: 120px;
+    height: 20px;
+    margin-left: 5px;
+    background-color: crimson;
+}
+
+.cellbar{
+    width: 120px;
+    height: 20px;
+}
+
+.cellbar > div {
+    height: 100%;
+    width: 20%;
+    background-color: darkcyan;
+}
+
+.etitle{
+    font-size: 28px;
+}
+
+#numericalinfos{
+    height: 150px;
+    width: 400px;
+    padding-top: 15px;
+    float: left;
+    font-size: 70px;
+    text-align: center;
+}
+#numericalinfos *{
+    display: inline;
+}
+
+#errors{
+    height: 80px;
+    width: 8000px;
+}
+
+.error{
+    display: inline-block;
+    height : 80px;
+    margin: 0 8px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.errTitle{
+    font-size: 30px;
+    margin: 4px;
+    color: red;
+    font-weight: bold;
+}
+
+.errContent{
+    font-size: 20px;
+    margin: 0px;
+}
+
+#main{
+    height:280px; width: 800px;
+    text-align : center;
+}
+
+#battery{
+    height: 280px; width: 270px;
+    float: left;
+}
+
+#counter{
+    position: relative;
+    height: 280px; width: 400px;
+    float: left;
+}
+
+#pedal{
+    position: relative;
+    height: 280px; width: 130px;
+    float: left;
+}
+
+#data{
+    height:120px; width: 800px;
+}

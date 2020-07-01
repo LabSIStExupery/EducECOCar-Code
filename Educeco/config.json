@@ -1,0 +1,139 @@
+{
+    "delays": {
+        "delayIntensite": 1.0,
+        "delayBatterie": 1.0,
+        "delayVitesse": 1.0,
+        "delayTemperature": 1.0,
+        "delayAccelerateur": 1.0
+    },
+    "database": {
+        "databaseUser": "pi",
+        "databaseName": "Educeco",
+        "databasePassword": "labsi",
+        "databaseHost": "localhost"
+    },
+    "speedSensor": {
+        "diametreRoue": 45.0,
+        "pinBranchementVitesse": 6,
+        "triggerValue": 500,
+        "angleValue": 60
+    },
+    "ranges": {
+        "tempMotor": {
+            "allowed": [
+                0,
+                40
+            ],
+            "warning": [
+                [
+                    -10,
+                    0
+                ],
+                [
+                    40,
+                    50
+                ]
+            ],
+            "critical": [
+                [
+                    -50,
+                    -10
+                ],
+                [
+                    50,
+                    150
+                ]
+            ]
+        },
+        "tempVariator": {
+            "allowed": [
+                10,
+                35
+            ],
+            "warning": [
+                [
+                    -10,
+                    10
+                ],
+                [
+                    35,
+                    67
+                ]
+            ],
+            "critical": [
+                [
+                    -50,
+                    -10
+                ],
+                [
+                    67,
+                    150
+                ]
+            ]
+        },
+        "tempBattery": {
+            "allowed": [
+                10,
+                35
+            ],
+            "warning": [
+                [
+                    -10,
+                    10
+                ],
+                [
+                    35,
+                    67
+                ]
+            ],
+            "critical": [
+                [
+                    -50,
+                    -10
+                ],
+                [
+                    67,
+                    150
+                ]
+            ]
+        },
+        "speed": {
+            "allowed": [
+                0,
+                40
+            ],
+            "warning": [
+                [
+                    40,
+                    50
+                ]
+            ],
+            "critical": [
+                [
+                    50,
+                    150
+                ]
+            ]
+        },
+        "current": {
+            "allowed": [
+                0,
+                110
+            ],
+            "warning": [
+                [
+                    135,
+                    200
+                ]
+            ],
+            "critical": [
+                [
+                    200,
+                    500
+                ]
+            ]
+        }
+    },
+    "AverageOverTime" : 300,
+    "BatteryCapacity" : 8000
+}

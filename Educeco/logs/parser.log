@@ -1,0 +1,18 @@
+[PARSER][INFO] Démarrage de parser.py... Timestamp : 1579115753042ms
+[PARSER][INFO] Initialisation du MCP Terminée
+[PARSER][DEBUG] Récupération de la configuration...
+[PARSER][DEBUG] Le fichier de configuration existe
+[PARSER][DEBUG] Chargement de la configuration dans un dictionnaire...
+[PARSER][DEBUG] Terminé
+[PARSER][DEBUG] Conversion des valeurs...
+[PARSER][DEBUG] Terminé
+[PARSER][INFO] Initialisation de la configuration terminée
+[PARSER][DEBUG] Tentative de connexion à la BDD avec les paramètres suivants : 
+ User: pi 
+ Database: Educeco 
+ Password: labsi 
+ Host: localhost
+[PARSER][DEBUG] Connecté
+[PARSER][INFO] Initialisation de la base de données terminée
+[PARSER][INFO] Basculement du système de logs vers celui de la base de données.
+pre thread
