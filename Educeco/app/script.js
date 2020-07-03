@@ -88,3 +88,56 @@ function updateElectrical(json){
     cell2bar.style.width = 100 - parseInt(data["cell2bar"]) + "%";
     cell3bar.style.width = 100 - parseInt(data["cell3bar"]) + "%";
 }
+
+//while(true){
+    console.log("Entrée dans la boucle");
+    var panel = "main";
+    //setTimeout(2000, function(){
+        console.log("Ajax, premiere partie");
+        $.ajax({
+            url : "http://localhost/educeco/getscreen.php",
+            type : "GET",
+            dataType: "text",
+            success : function(content, status){
+				console.log("Succes de l'ajax 1");
+                panel = content;
+                var main = document.getElementById("mainScreen");
+                var electrical = document.getElementById("electrical");
+                var temp = document.getElementById("temp");
+
+                if(panel == "main"){
+                    main.style.display = "block";
+                    electrical.style.display = "none";
+                    temp.style.display = "none";
+                } else if (panel == "electrical"){
+                    main.style.display = "none";
+                    electrical.style.display = "block";
+                    temp.style.display = "none";
+                } else if (panel == "temp"){
+                    main.style.display = "none";
+                    electrical.style.display = "none";
+                    temp.style.display = "block";
+                }
+            }
+        });
+        $.ajax({
+            url : 'http://localhost/educeco/getdata.php', // La ressource ciblée
+            type : 'GET', // Le type de la requête HTTP.
+            data : 'panel=' + panel,
+            dataType : 'json',
+            success : function(content, status){
+				console.log(content);
+                if(panel == "main"){
+                    updateMain(content);
+                } else if (panel == "electrical") {
+                    updateElectrical(content);
+                } else if (panel == "temp"){
+                    updateTemp(content);
+                }
+            },
+            error: function(result, status, error){
+                alert("can't fetch data");
+            }
+         //});
+    });
+//}
